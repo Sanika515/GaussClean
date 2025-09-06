@@ -1,0 +1,22 @@
+% Remove Gaussian noise from an image in MATLAB
+
+% Read noisy image
+noisy_img = imread('noise1.png');
+noisy_img = rgb2gray(noisy_img);        % convert to grayscale if needed
+
+% Apply Gaussian filter
+h = fspecial('gaussian', [5 5], 1);     % 5x5 kernel, sigma=1
+gaussian_filtered = imfilter(noisy_img, h);
+
+% Apply Median filter
+median_filtered = medfilt2(noisy_img, [3 3]);
+
+% Apply Wiener filter (adaptive)
+wiener_filtered = wiener2(noisy_img, [5 5]);
+
+% Display results
+figure;
+subplot(2,2,1), imshow(noisy_img), title('Noisy Image');
+subplot(2,2,2), imshow(gaussian_filtered), title('Gaussian Filter');
+subplot(2,2,3), imshow(median_filtered), title('Median Filter');
+subplot(2,2,4), imshow(wiener_filtered), title('Wiener Filter');
